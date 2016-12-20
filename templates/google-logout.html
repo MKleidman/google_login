@@ -1,0 +1,18 @@
+<head>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+      window.onLoadCallback = function() {
+        gapi.load('auth2', function () {
+            gapi.auth2.init({client_id: '{{ google_client_id }}'}).then(function(authInstance) {
+                authInstance.signOut().then(function () {
+                    jQuery('#sign-out').html('Signed Out<br><a href="/admin/login/">Sign in again</a>');
+                });
+            });
+        });
+      }
+    </script>
+</head>
+<body>
+    <div id="sign-out">Signing Out</div>
+</body>
