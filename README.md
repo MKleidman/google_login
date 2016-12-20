@@ -14,3 +14,6 @@ This only works when you want to override /admin/login/ and /admin/logout/ to us
     from google_login.urls import urlpatterns as google_login_patterns
     
     urlpatterns = google_login_patterns + [your app or project's url patterns]
+
+
+For now, this will get_or_create a django auth contrib User with email = google email, is_staff=True, defaults={"first_name": name_bits[0], "last_name": " ".join(name_bits[1:]), "password": set_unusable_password, "username": google email})
