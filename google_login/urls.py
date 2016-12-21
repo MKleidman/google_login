@@ -36,7 +36,9 @@ def complete_login(request):
 @ensure_csrf_cookie
 def login_view(request):
     return render_to_response('google-login.html',
-                              {"next": request.GET.get('next', '/admin/'), "google_client_id": settings.GOOGLE_CLIENT_ID})
+                              {"next": request.GET.get('next', '/admin/'),
+                               "google_client_id": settings.GOOGLE_CLIENT_ID,
+                               "hostname": settings.HOSTNAME})
 
 def logout_view(request):
     logout(request)

@@ -23,7 +23,7 @@
             var id_token = googleUser.getAuthResponse().id_token;
             var profile = googleUser.getBasicProfile();
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://birdcall.tech/complete_login/');
+            xhr.open('POST', '{{ hostname }}/complete_login/');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
             xhr.onload = function() {
