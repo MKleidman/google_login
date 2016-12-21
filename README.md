@@ -7,7 +7,7 @@ This only works when you want to override /admin/login/ and /admin/logout/ to us
 
 2) add google_login to your INSTALLED_APPS
 
-3) make sure GOOGLE_CLIENT_ID is in your django settings
+3) make sure GOOGLE_CLIENT_ID and HOSTNAME are in your django settings
 
 4) add the following to your urls.py:
 
