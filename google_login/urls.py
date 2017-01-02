@@ -5,7 +5,6 @@ from django.contrib import admin
 from django.contrib.auth import authenticate, login, models, logout
 from django.shortcuts import render_to_response, redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
-from planner import views
 from oauth2client import client, crypt
 
 def complete_login(request):
@@ -44,7 +43,7 @@ def logout_view(request):
 
 
 urlpatterns = [
-    url(r'^admin/login/', login_view),
-    url(r'^admin/logout/', logout_view),
+    url(r'^login/', login_view),
+    url(r'^logout/', logout_view),
     url(r'^complete_login/$', complete_login),
 ]
