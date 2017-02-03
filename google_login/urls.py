@@ -20,8 +20,15 @@ def complete_login(request):
         # Invalid token
         return HttpResponseForbidden()
     userid = idinfo['sub']
-    name_bits = request.POST['name'].split()
-    user, created = models.User.objects.get_or_create(email=request.POST['email'], defaults={
+    user = login_and_get_user(request.POST)
+    return HttpResponse('<html><body>{}</body></html>'.format(user.id), content_type='text/html')
+
+def login_and_get_user(data):
+    """
+    Hook to handle request data however you want and return a user object
+    """
+    name_bits = data['name'].split()
+    user, created = models.User.objects.get_or_create(email=data['email'], defaults={
         "first_name": name_bits[0], "last_name": " ".join(name_bits[1:])})
     if created:
         user.set_unusable_password()
@@ -30,12 +37,12 @@ def complete_login(request):
         user.save()
     models.Group.objects.get(name='All').user_set.add(user)
     login(request, user)
-    return HttpResponse('<html><body>{}</body></html>'.format(user.id), content_type='text/html')
+    return user
 
 @ensure_csrf_cookie
 def login_view(request):
     return render_to_response('google-login.html',
-                              {"next": request.GET.get('next', '/admin/'),
+                              {"next": request.GET.get('next', getattr(settings, 'HOME_URI', '/')),
                                "google_client_id": settings.GOOGLE_CLIENT_ID,
                                "hostname": settings.HOSTNAME})
 
