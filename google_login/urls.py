@@ -20,13 +20,14 @@ def complete_login(request):
         # Invalid token
         return HttpResponseForbidden()
     userid = idinfo['sub']
-    user = login_and_get_user(request.POST)
+    user = login_and_get_user(request)
     return HttpResponse('<html><body>{}</body></html>'.format(user.id), content_type='text/html')
 
-def login_and_get_user(data):
+def login_and_get_user(request):
     """
     Hook to handle request data however you want and return a user object
     """
+    data = request.POST
     name_bits = data['name'].split()
     user, created = models.User.objects.get_or_create(email=data['email'], defaults={
         "first_name": name_bits[0], "last_name": " ".join(name_bits[1:])})
