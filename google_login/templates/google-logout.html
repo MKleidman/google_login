@@ -6,7 +6,7 @@
         gapi.load('auth2', function () {
             gapi.auth2.init({client_id: '{{ google_client_id }}'}).then(function(authInstance) {
                 authInstance.signOut().then(function () {
-                    jQuery('#sign-out').html('Signed Out<br><a href="/admin/login/">Sign in again</a>');
+                    jQuery('#sign-out').html('Signed Out<br><a href="/login/">Sign in again</a>');
                 });
             });
         });
