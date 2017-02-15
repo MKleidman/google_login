@@ -10,6 +10,7 @@ from oauth2client import client, crypt
 def complete_login(request):
     try:
         idinfo = client.verify_id_token(request.POST['idtoken'], settings.GOOGLE_CLIENT_ID)
+        access_token = request.POST['access_token']
         if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
             raise crypt.AppIdentityError("Wrong issuer.")
 
@@ -20,10 +21,10 @@ def complete_login(request):
         # Invalid token
         return HttpResponseForbidden()
     userid = idinfo['sub']
-    user = login_and_get_user(request, idinfo)
+    user = login_and_get_user(request, idinfo, access_token)
     return HttpResponse('<html><body>{}</body></html>'.format(user.id), content_type='text/html')
 
-def login_and_get_user(request, idinfo):
+def login_and_get_user(request, idinfo, access_token):
     """
     Hook to handle request data however you want and return a user object
     """
@@ -44,6 +45,7 @@ def login_and_get_user(request, idinfo):
 def login_view(request):
     return render_to_response('google-login.html',
                               {"next": request.GET.get('next', getattr(settings, 'HOME_URI', '/')),
+                               "scopes": getattr(settings, 'GOOGLE_LOGIN_SCOPES', 'profile https://www.googleapis.com/auth/calendar'),
                                "google_client_id": settings.GOOGLE_CLIENT_ID,
                                "hostname": settings.HOSTNAME})
 
