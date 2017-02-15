@@ -20,10 +20,10 @@ def complete_login(request):
         # Invalid token
         return HttpResponseForbidden()
     userid = idinfo['sub']
-    user = login_and_get_user(request)
+    user = login_and_get_user(request, idinfo)
     return HttpResponse('<html><body>{}</body></html>'.format(user.id), content_type='text/html')
 
-def login_and_get_user(request):
+def login_and_get_user(request, idinfo):
     """
     Hook to handle request data however you want and return a user object
     """
